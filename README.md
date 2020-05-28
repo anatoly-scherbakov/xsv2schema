@@ -25,11 +25,18 @@ pip install xsv2schema
 
 Showcase how your project can be used:
 
-```python
-from xsv2schema.example import some_function
+```bash
+cat yourdata.csv | xsv stats | python run.py
+```
 
-print(some_function(3, 4))
-# => 7
+which gives
+
+```yaml
+version: 1
+columns:
+  id:
+    input: id
+  ...
 ```
 
 ## License
