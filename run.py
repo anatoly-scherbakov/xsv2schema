@@ -5,6 +5,7 @@ from typing import TextIO, Optional
 
 import pydantic
 import yaml
+from pydantic import validator
 
 try:
     from yaml import CLoader as YAMLLoader, CDumper as YAMLDumper
@@ -26,10 +27,17 @@ class Field(pydantic.BaseModel):
     sum: str
     min: str
     max: str
-    min_length: int
-    max_length: int
+    min_length: Optional[int] = None
+    max_length: Optional[int] = None
     mean: Optional[float] = None
     stddev: Optional[float] = None
+
+    @validator('min_length', 'max_length', pre=True)
+    def validate_lengths(cls, value):
+        if value == '':
+            return None
+
+        return value
 
 
 def line_to_field(line: dict) -> Field:  # type: ignore
